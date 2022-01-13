@@ -15,10 +15,17 @@ jobs:
           command: |
             echo changed > f1.txt
             echo newfile > f3.txt
+            mkdir /root/.cache
+            echo stuff > /root/.cache/f1.txt
       - persist_to_workspace:
           root: /root
           paths:
             - ./project
+      - save_cache:
+          key: poetry-cache-{{ checksum "backend/poetry.lock" }}
+          paths:
+            - ~/.cache
+
 
 
   job2:
@@ -27,6 +34,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: /root
+      - restore_cache:
+          key: poetry-cache-{{ checksum "backend/poetry.lock" }}
       - run:
           name: job2.step1.run
           command: |
@@ -34,8 +43,10 @@ jobs:
             id
             pwd
             ls -la
+            ls -la /root/.cache
             cat f1.txt
             cat f3.txt
+            cat /root/.cache/f1.txt
             echo end
 
 workflows:
