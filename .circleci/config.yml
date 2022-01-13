@@ -10,18 +10,37 @@ jobs:
     executor: docker_executor
     steps:
       - checkout
-      - attach_workspace:
-          at: "/root"
       - run:
-          name: "job1.step1.run"
+          name: job1.step1.run
           command: |
             echo start
             id
             pwd
             ls -la
             echo end
+      - persist_to_workspace:
+          root: /root
+          paths:
+            - ./project/d1
+
+
+  job2:
+    executor: docker_executor
+    steps:
+      - attach_workspace:
+          at: /root
+      - run:
+          name: job2.step1.run
+          command: |
+            echo start
+            id
+            pwd
+            ls -la
+            tree .
+            echo end
 
 workflows:
   w1:
     jobs:
       - job1
+      - job2
