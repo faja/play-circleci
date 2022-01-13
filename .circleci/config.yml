@@ -9,6 +9,7 @@ jobs:
   job1:
     executor: docker_executor
     steps:
+      - checkout
       - run:
           name: "job1.step1.run"
           command: |
