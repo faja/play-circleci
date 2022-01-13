@@ -1,0 +1,24 @@
+version: 2.1
+
+executors:
+  docker_executor:
+    docker:
+      - image: public.ecr.aws/u1k3r3i1/circleci/public-executor:docker
+
+jobs:
+  job1:
+    executor: docker_executor
+    steps:
+      - run:
+          name: "job1.step1.run"
+          command: |
+            echo start
+            id
+            pwd
+            ls -la
+            echo end
+
+workflows:
+  w1:
+    jobs:
+      - job1
