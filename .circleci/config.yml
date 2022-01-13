@@ -10,6 +10,8 @@ jobs:
     executor: docker_executor
     steps:
       - checkout
+      - attach_workspace:
+          at: "/tmp/workspace"
       - run:
           name: "job1.step1.run"
           command: |
@@ -17,7 +19,10 @@ jobs:
             id
             pwd
             ls -la
-            echo end
+            echo end1
+            ls -la /tmp/workspace
+            echo en2d
+
 
 workflows:
   w1:
