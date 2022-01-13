@@ -19,9 +19,9 @@ jobs:
             ls -la
             echo end
       - persist_to_workspace:
-          root: /root
+          root: /root/project
           paths:
-            - ./project/d1
+            - ./d1
 
 
   job2:
@@ -36,6 +36,8 @@ jobs:
             id
             pwd
             ls -la
+            echo ---
+            ls -la ..
             echo end
 
 workflows:
