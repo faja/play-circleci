@@ -36,11 +36,12 @@ jobs:
             id
             pwd
             ls -la
-            tree .
             echo end
 
 workflows:
   w1:
     jobs:
       - job1
-      - job2
+      - job2:
+          requires:
+            - job1
