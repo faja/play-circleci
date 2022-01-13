@@ -13,11 +13,8 @@ jobs:
       - run:
           name: job1.step1.run
           command: |
-            echo start
-            id
-            pwd
-            ls -la
-            echo end
+            echo changed > f1.txt
+            echo newfile > f3.txt
       - persist_to_workspace:
           root: /root
           paths:
@@ -27,6 +24,7 @@ jobs:
   job2:
     executor: docker_executor
     steps:
+      - checkout
       - attach_workspace:
           at: /root
       - run:
@@ -36,6 +34,8 @@ jobs:
             id
             pwd
             ls -la
+            cat f1.txt
+            cat f3.txt
             echo end
 
 workflows:
