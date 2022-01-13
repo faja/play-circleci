@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: "/tmp/workspace"
+          at: "/root"
       - run:
           name: "job1.step1.run"
           command: |
@@ -19,10 +19,7 @@ jobs:
             id
             pwd
             ls -la
-            echo end1
-            ls -la /tmp/workspace
-            echo en2d
-
+            echo end
 
 workflows:
   w1:
