@@ -1,58 +1,18 @@
 version: 2.1
 
-executors:
-  docker_executor:
-    docker:
-      - image: public.ecr.aws/u1k3r3i1/circleci/public-executor:docker
-
 jobs:
   job1:
-    executor: docker_executor
+    docker:
+      - image: cimg/base:2022.01
     steps:
-      - checkout
       - run:
           name: job1.step1.run
           command: |
-            echo changed > f1.txt
-            echo newfile > f3.txt
-            mkdir /root/.cache
-            echo stuff > /root/.cache/f1.txt
-      - persist_to_workspace:
-          root: /root
-          paths:
-            - ./project
-      - save_cache:
-          key: poetry-cache-{{ checksum "backend/poetry.lock" }}
-          paths:
-            - ~/.cache
-
-
-
-  job2:
-    executor: docker_executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /root
-      - restore_cache:
-          key: poetry-cache-{{ checksum "backend/poetry.lock" }}
-      - run:
-          name: job2.step1.run
-          command: |
-            echo start
-            id
-            pwd
-            ls -la
-            ls -la /root/.cache
-            cat f1.txt
-            cat f3.txt
-            cat /root/.cache/f1.txt
-            echo end
+            echo pipeline.git.revision << pipeline.git.revision >>
+            echo pipeline.git.tag << pipeline.git.tag >>
+            echo pipeline.git.branch << pipeline.git.branch >>
 
 workflows:
   w1:
     jobs:
       - job1
-      - job2:
-          requires:
-            - job1
